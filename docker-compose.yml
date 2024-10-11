@@ -12,14 +12,14 @@ services:
       - POSTGRES_PASSWORD=app_password
     depends_on:
       - redis
-      - db
+      - postgres
 
   redis:
     image: "redis:alpine"
     ports:
       - "6379:6379"
 
-  db:
+  postgres:  # Explicitly name the PostgreSQL container
     image: "postgres:13-alpine"
     environment:
       POSTGRES_DB: app_db
