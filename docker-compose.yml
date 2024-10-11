@@ -1,16 +1,27 @@
-version: "3.8"
+version: '3.8'
 
 services:
-    web:
-        build: ./flask_app
-        ports:
-            - "5000:5000"
-        environment:
-            - REDIS_URL=redis://redis:6379
-        depends_on:
-            - redis
+  web:
+    build: ./flask_app
+    ports:
+      - "5000:5000"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=postgres://postgres:password@db:5432/mydatabase
+    depends_on:
+      - redis
+      - db
 
-    redis:
-        image: "redis:alpine"
-        ports:
-            - "6379:6379"
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+
+  db:
+    image: "postgres"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
